@@ -3,116 +3,138 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>אקדמיית הלחימה | מאיר ישראל</title>
+    <title>מאסטר הלחימה | מאיר ישראל</title>
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
     <style>
-        :root { --red: #e60000; --gold: #ffcc00; --bg: #0a0a0a; }
-        body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); color: white; margin: 0; }
+        :root { --main-color: #ff5e00; --bg: #1a1c20; --card-bg: #25282e; }
         
-        /* מונה כניסות מעוצב שעוקף חסימות */
+        body { 
+            font-family: 'Assistant', 'Segoe UI', sans-serif; 
+            background: var(--bg); color: white; margin: 0; 
+        }
+
         #visitor-stat {
-            position: fixed; top: 15px; right: 15px; background: linear-gradient(45deg, #222, #000);
-            padding: 8px 20px; border-radius: 50px; z-index: 1000; border: 1px solid var(--red);
-            font-size: 0.9rem; box-shadow: 0 0 15px rgba(230, 0, 0, 0.3);
+            position: fixed; top: 20px; left: 20px; 
+            background: rgba(255, 94, 0, 0.1); padding: 10px 25px; 
+            border-radius: 30px; border: 1px solid var(--main-color);
+            color: var(--main-color); font-weight: bold; z-index: 1000;
         }
 
-        header {
-            padding: 100px 20px; text-align: center;
-            background: linear-gradient(0deg, var(--bg) 0%, rgba(0,0,0,0.4) 100%), url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
+        header { padding: 70px 20px; text-align: center; }
+        h1 { font-size: 3.8rem; margin: 0; color: white; }
+        .sub-h { color: var(--main-color); font-size: 1.3rem; font-weight: bold; margin-top: 5px; }
+
+        .grid { 
+            display: grid; grid-template-columns: repeat(3, 1fr); 
+            gap: 30px; padding: 40px; max-width: 1300px; margin: auto; 
         }
 
-        h1 { 
-            font-size: 4rem; margin: 0; color: white; letter-spacing: -2px;
-            text-shadow: 0 0 15px var(--red); animation: glow 2s infinite alternate;
-        }
-        @keyframes glow { from { text-shadow: 0 0 10px var(--red); } to { text-shadow: 0 0 25px var(--red), 0 0 5px white; } }
+        @media (max-width: 1050px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 650px) { .grid { grid-template-columns: 1fr; } }
 
-        .grid {
-            display: grid; grid-template-columns: repeat(3, 1fr);
-            gap: 40px; padding: 20px; max-width: 1300px; margin: auto;
+        .card { 
+            background: var(--card-bg); border-radius: 25px; overflow: hidden;
+            transition: 0.4s; box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.05);
         }
 
-        @media (max-width: 1000px) { .grid { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 700px) { .grid { grid-template-columns: 1fr; } }
+        .card:hover { transform: scale(1.03); box-shadow: 0 15px 35px rgba(255, 94, 0, 0.15); }
 
-        .card {
-            background: #161616; border-radius: 12px; overflow: hidden;
-            transition: 0.4s; border: 1px solid #252525; position: relative;
-        }
-        .card:hover { transform: scale(1.02); border-color: var(--red); box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
+        .v-box { width: 100%; aspect-ratio: 16/9; background: #000; }
+        video { width: 100%; height: 100%; }
 
-        .video-container { position: relative; width: 100%; aspect-ratio: 16/9; background: #000; }
-        video { width: 100%; height: 100%; object-fit: cover; }
+        .card-body { padding: 20px; text-align: center; }
+        .type-label { font-size: 0.8rem; opacity: 0.7; margin-bottom: 8px; display: block; }
+        .v-title { font-size: 1.4rem; font-weight: bold; margin-bottom: 15px; }
 
-        .card-info { padding: 20px; background: #1a1a1a; }
-        .card-title { font-size: 1.2rem; font-weight: bold; margin-bottom: 10px; color: var(--gold); }
-
-        .btn-group { display: flex; gap: 10px; margin-top: 15px; }
+        .ctrl { display: flex; flex-direction: column; gap: 12px; }
         
-        button {
-            flex: 1; padding: 10px; border: none; border-radius: 6px; cursor: pointer;
-            font-weight: bold; transition: 0.3s; font-family: 'Segoe UI';
-        }
-        
-        .fs-btn { background: var(--red); color: white; }
-        .fs-btn:hover { background: #ff3333; }
-        
-        .like-btn { background: #333; color: white; display: flex; align-items: center; justify-content: center; gap: 5px; }
-        .like-btn.active { background: white; color: black; }
+        /* עיצוב שמע עגול */
+        .vol-wrap { display: flex; align-items: center; gap: 10px; background: rgba(0,0,0,0.2); padding: 8px; border-radius: 20px; }
+        input[type=range] { flex: 1; accent-color: var(--main-color); }
 
-        footer { text-align: center; padding: 80px; opacity: 0.4; font-size: 0.8rem; }
+        .btn-box { display: flex; gap: 8px; }
+        .btn { 
+            flex: 1; padding: 12px; border: none; border-radius: 15px; 
+            cursor: pointer; font-weight: bold; font-family: inherit; font-size: 1rem;
+        }
+        .btn-f { background: var(--main-color); color: white; }
+        .btn-l { background: #3a3f47; color: white; }
+        .btn-l.active { background: white; color: black; }
+
+        footer { text-align: center; padding: 60px; opacity: 0.4; }
     </style>
 </head>
 <body>
 
-<div id="visitor-stat">🥊 לוחמים באתר: <span id="count">1</span></div>
+<div id="visitor-stat">כניסות לאתר: <span id="count">0</span></div>
 
 <header>
-    <div style="font-size: 1rem; color: var(--gold); margin-bottom: 10px;">ברוך הבא לאקדמיה של</div>
     <h1>מאיר ישראל</h1>
+    <div class="sub-h">טכניקות לחימה וקרבות ג'קי צ'אן</div>
 </header>
 
 <div class="grid" id="mainGrid"></div>
 
-<footer>© 2026 אקדמיית הלחימה - מאיר ישראל - כל הזכויות שמורות</footer>
+<footer>כל הזכויות שמורות למאיר ישראל © 2026</footer>
 
 <script>
-    // פונקציית מונה כניסות פנימית (סימולציה שמתעדכנת לכל משתמש)
-    document.getElementById('count').innerText = Math.floor(Math.random() * 50) + 120;
+    const firebaseConfig = {
+      apiKey: "AIzaSyBibVy3ARInFAHiA1hx7VOcCI-_2W8LmY4",
+      authDomain: "meir-isrel.firebaseapp.com",
+      projectId: "meir-isrel",
+      storageBucket: "meir-isrel.firebasestorage.app",
+      messagingSenderId: "186033617483",
+      appId: "1:186033617483:web:81e30f34177c549dbeebce"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    db.ref('total_visits').transaction(c => (c || 0) + 1);
+    db.ref('total_visits').on('value', s => document.getElementById('count').innerText = s.val());
 
     const grid = document.getElementById('mainGrid');
-    
     for (let i = 1; i <= 20; i++) {
+        const text = (i % 2 === 0) ? "קטע מהסרטים" : "לימוד טכניקה";
         const card = document.createElement('div');
         card.className = 'card';
         card.innerHTML = `
-            <div class="video-container">
-                <video id="vid${i}" controlslist="nodownload">
-                    <source src="video${i}.mp4" type="video/mp4">
-                </video>
+            <div class="v-box">
+                <video id="v${i}" controlslist="nodownload"><source src="video${i}.mp4" type="video/mp4"></video>
             </div>
-            <div class="card-info">
-                <div class="card-title">שיעור ${i}: טכניקות מתקדמות</div>
-                <div class="btn-group">
-                    <button class="fs-btn" onclick="openFull(${i})">📺 מסך מלא</button>
-                    <button class="like-btn" onclick="this.classList.toggle('active')">❤️ <span>0</span></button>
+            <div class="card-body">
+                <span class="type-label">${text}</span>
+                <div class="v-title">סרטון מספר ${i}</div>
+                <div class="ctrl">
+                    <div class="vol-wrap">
+                        <span>🔊</span>
+                        <input type="range" min="0" max="1" step="0.1" value="0.5" oninput="document.getElementById('v${i}').volume = this.value">
+                    </div>
+                    <div class="btn-box">
+                        <button class="btn btn-f" onclick="f(${i})">מסך מלא</button>
+                        <button class="btn btn-l" id="l${i}" onclick="t(${i})">❤️ <span id="c${i}">0</span></button>
+                    </div>
                 </div>
             </div>
         `;
         grid.appendChild(card);
+        db.ref('likes/v' + i).on('value', s => document.getElementById('c' + i).innerText = s.val() || 0);
     }
 
-    // פונקציית מסך מלא בטוחה
-    function openFull(id) {
-        const v = document.getElementById('vid' + id);
+    function t(id) {
+        const b = document.getElementById('l' + id);
+        const a = b.classList.toggle('active');
+        db.ref('likes/v' + id).transaction(c => a ? (c || 0) + 1 : (c > 0 ? c - 1 : 0));
+    }
+
+    function f(id) {
+        const v = document.getElementById('v' + id);
         if (v.requestFullscreen) v.requestFullscreen();
-        else if (v.webkitRequestFullscreen) v.webkitRequestFullscreen();
-        else if (v.msRequestFullscreen) v.msRequestFullscreen();
-        v.play(); // מתחיל לנגן אוטומטית כשנכנס למסך מלא
+        v.play();
     }
-
-    // חסימת קליק ימני כללית
     document.addEventListener('contextmenu', e => e.preventDefault());
 </script>
-
 </body>
 </html>
