@@ -3,130 +3,121 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>מאסטר הלחימה | מאיר ישראל</title>
-    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
+    
+    <title>מאיר ישראל | מומחה לחימה והגנה עצמית - האתר הרשמי</title>
+    <meta name="description" content="ברוכים הבאים לאתר של מאיר ישראל. כאן תמצאו סרטוני הדרכה, טכניקות לחימה מתקדמות וארכיון קרבות של ג'קי צ'אן.">
+    <meta name="keywords" content="מאיר ישראל, לחימה, הגנה עצמית, ג'קי צ'אן, אימון לחימה, אומנויות לחימה">
+    
+    <meta property="og:title" content="מאיר ישראל - מאסטר הלחימה">
+    <meta property="og:description" content="צפו בטכניקות הלחימה הטובות ביותר עכשיו באתר.">
+    <meta property="og:type" content="website">
+
     <style>
-        :root { --main-color: #ff5e00; --bg: #1a1c20; --card-bg: #25282e; }
+        :root { 
+            --primary: #1d3557; 
+            --red: #e63946; 
+            --light: #f8f9fa;
+        }
         
         body { 
-            font-family: 'Assistant', 'Segoe UI', sans-serif; 
-            background: var(--bg); color: white; margin: 0; 
+            font-family: 'Assistant', sans-serif; 
+            background-color: var(--light); 
+            color: var(--primary); 
+            margin: 0; 
         }
 
-        #visitor-stat {
-            position: fixed; top: 20px; left: 20px; 
-            background: rgba(255, 94, 0, 0.1); padding: 10px 25px; 
-            border-radius: 30px; border: 1px solid var(--main-color);
-            color: var(--main-color); font-weight: bold; z-index: 1000;
+        header { 
+            padding: 60px 20px; 
+            text-align: center; 
+            background: var(--primary);
+            color: white;
+            border-bottom: 5px solid var(--red);
         }
 
-        header { padding: 70px 20px; text-align: center; }
-        h1 { font-size: 3.8rem; margin: 0; color: white; }
-        .sub-h { color: var(--main-color); font-size: 1.3rem; font-weight: bold; margin-top: 5px; }
+        h1 { font-size: 3.5rem; margin: 0; }
+        .intro { max-width: 800px; margin: 30px auto; font-size: 1.2rem; line-height: 1.8; }
 
         .grid { 
-            display: grid; grid-template-columns: repeat(3, 1fr); 
-            gap: 30px; padding: 40px; max-width: 1300px; margin: auto; 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+            gap: 30px; 
+            padding: 40px; 
+            max-width: 1300px; 
+            margin: auto; 
         }
-
-        @media (max-width: 1050px) { .grid { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 650px) { .grid { grid-template-columns: 1fr; } }
 
         .card { 
-            background: var(--card-bg); border-radius: 25px; overflow: hidden;
-            transition: 0.4s; box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-            border: 1px solid rgba(255,255,255,0.05);
+            background: white; 
+            border-radius: 20px; 
+            overflow: hidden; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border: 1px solid #eee;
+            transition: 0.3s ease;
         }
 
-        .card:hover { transform: scale(1.03); box-shadow: 0 15px 35px rgba(255, 94, 0, 0.15); }
+        .card:hover { transform: translateY(-10px); border-color: var(--red); }
 
-        .v-box { width: 100%; aspect-ratio: 16/9; background: #000; }
-        video { width: 100%; height: 100%; }
+        .v-box { background: #000; width: 100%; aspect-ratio: 16/9; }
+        video { width: 100%; height: 100%; object-fit: cover; }
 
-        .card-body { padding: 20px; text-align: center; }
-        .type-label { font-size: 0.8rem; opacity: 0.7; margin-bottom: 8px; display: block; }
-        .v-title { font-size: 1.4rem; font-weight: bold; margin-bottom: 15px; }
+        .card-content { padding: 20px; text-align: center; }
+        h3 { font-size: 1.3rem; margin: 0 0 15px 0; color: var(--primary); }
 
-        .ctrl { display: flex; flex-direction: column; gap: 12px; }
-        
-        /* עיצוב שמע עגול */
-        .vol-wrap { display: flex; align-items: center; gap: 10px; background: rgba(0,0,0,0.2); padding: 8px; border-radius: 20px; }
-        input[type=range] { flex: 1; accent-color: var(--main-color); }
-
-        .btn-box { display: flex; gap: 8px; }
-        .btn { 
-            flex: 1; padding: 12px; border: none; border-radius: 15px; 
-            cursor: pointer; font-weight: bold; font-family: inherit; font-size: 1rem;
+        .full-btn { 
+            background: var(--red); 
+            color: white; 
+            border: none; 
+            padding: 12px 25px; 
+            border-radius: 12px; 
+            font-weight: bold; 
+            cursor: pointer; 
+            width: 100%;
+            font-size: 1rem;
         }
-        .btn-f { background: var(--main-color); color: white; }
-        .btn-l { background: #3a3f47; color: white; }
-        .btn-l.active { background: white; color: black; }
-
-        footer { text-align: center; padding: 60px; opacity: 0.4; }
     </style>
 </head>
 <body>
 
-<div id="visitor-stat">כניסות לאתר: <span id="count">0</span></div>
-
 <header>
     <h1>מאיר ישראל</h1>
-    <div class="sub-h">טכניקות לחימה וקרבות ג'קי צ'אן</div>
+    <p style="font-size: 1.4rem; opacity: 0.8;">הגנה עצמית | טכניקות לחימה | השראה</p>
 </header>
 
-<div class="grid" id="mainGrid"></div>
+<main>
+    <section class="intro">
+        <h2>אמנות הלחימה של מאיר ישראל</h2>
+        <p>
+            ברוכים הבאים למרכז הידע של מאיר ישראל. באתר זה תוכלו ללמוד טכניקות לחימה, 
+            לצפות בהדגמות של הגנה עצמית ולעקוב אחרי ארכיון הקרבות המקצועי שלנו. 
+            כל הסרטונים זמינים לצפייה ישירה ובמסך מלא.
+        </p>
+    </section>
 
-<footer>כל הזכויות שמורות למאיר ישראל © 2026</footer>
+    <div class="grid" id="mainGrid"></div>
+</main>
+
+<footer style="text-align: center; padding: 50px; background: #eee; margin-top: 50px;">
+    <p><strong>מאיר ישראל - מומחה לחימה</strong></p>
+    <p>כל הזכויות שמורות © 2026</p>
+</footer>
 
 <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyBibVy3ARInFAHiA1hx7VOcCI-_2W8LmY4",
-      authDomain: "meir-isrel.firebaseapp.com",
-      projectId: "meir-isrel",
-      storageBucket: "meir-isrel.firebasestorage.app",
-      messagingSenderId: "186033617483",
-      appId: "1:186033617483:web:81e30f34177c549dbeebce"
-    };
-
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.database();
-
-    db.ref('total_visits').transaction(c => (c || 0) + 1);
-    db.ref('total_visits').on('value', s => document.getElementById('count').innerText = s.val());
-
     const grid = document.getElementById('mainGrid');
     for (let i = 1; i <= 20; i++) {
-        const text = (i % 2 === 0) ? "קטע מהסרטים" : "לימוד טכניקה";
-        const card = document.createElement('div');
+        const card = document.createElement('article');
         card.className = 'card';
         card.innerHTML = `
             <div class="v-box">
-                <video id="v${i}" controlslist="nodownload"><source src="video${i}.mp4" type="video/mp4"></video>
+                <video id="v${i}" preload="none" poster="thumb${i}.jpg">
+                    <source src="video${i}.mp4" type="video/mp4">
+                </video>
             </div>
-            <div class="card-body">
-                <span class="type-label">${text}</span>
-                <div class="v-title">סרטון מספר ${i}</div>
-                <div class="ctrl">
-                    <div class="vol-wrap">
-                        <span>🔊</span>
-                        <input type="range" min="0" max="1" step="0.1" value="0.5" oninput="document.getElementById('v${i}').volume = this.value">
-                    </div>
-                    <div class="btn-box">
-                        <button class="btn btn-f" onclick="f(${i})">מסך מלא</button>
-                        <button class="btn btn-l" id="l${i}" onclick="t(${i})">❤️ <span id="c${i}">0</span></button>
-                    </div>
-                </div>
+            <div class="card-content">
+                <h3>שיעור לחימה עם מאיר ישראל מס' ${i}</h3>
+                <button class="full-btn" onclick="f(${i})">לצפייה במסך מלא</button>
             </div>
         `;
         grid.appendChild(card);
-        db.ref('likes/v' + i).on('value', s => document.getElementById('c' + i).innerText = s.val() || 0);
-    }
-
-    function t(id) {
-        const b = document.getElementById('l' + id);
-        const a = b.classList.toggle('active');
-        db.ref('likes/v' + id).transaction(c => a ? (c || 0) + 1 : (c > 0 ? c - 1 : 0));
     }
 
     function f(id) {
@@ -134,7 +125,7 @@
         if (v.requestFullscreen) v.requestFullscreen();
         v.play();
     }
-    document.addEventListener('contextmenu', e => e.preventDefault());
 </script>
+
 </body>
 </html>
