@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <title>המאסטרים - סרטוני אומנויות לחימה וקונג-פו</title>
-    <meta name="description" content="גלריית וידאו של אומנויות לחימה. צפו ב-30 קטעי לחימה נבחרים של ג'קי צ'אן ומאסטרים אחרים.">
+    <meta name="description" content="גלריית וידאו של אומנויות לחימה. צפו בקטעי לחימה נבחרים של ג'קי צ'אן ומאסטרים אחרים.">
     <meta name="keywords" content="אומנויות לחימה, קונג פו, סרטוני לחימה קצרים, טכניקות קרב, ג'קי צ'אן, מאיר ישראל">
     <meta name="author" content="מאיר ישראל">
 
@@ -45,7 +45,6 @@
         }
         video {
             width: 100%;
-            /* יחס של 5:4 - ממש טיפה מלבני */
             aspect-ratio: 5 / 4; 
             object-fit: cover;
             display: block;
@@ -59,7 +58,7 @@
             border-top: 1px solid #444;
         }
 
-        /* עיצוב כפתור הגלילה למטה */
+        /* כפתור הגלילה למטה */
         .scroll-down-btn {
             position: fixed;
             bottom: 30px;
@@ -90,8 +89,13 @@
     <div class="container">
         <div class="video-grid">
             <script>
-                // יצירת 30 כרטיסיות הסרטונים 
-                for (let i = 1; i <= 30; i++) {
+                // --- החלק החשוב! ---
+                // שנה את המספר הזה בכל פעם שאתה מעלה סרטון חדש לגיטהב.
+                // כרגע יש רק סרטון אחד, אז זה על 1. אם תעלה את 2.mp4, תשנה ל-2.
+                const כמה_סרטונים_יש_ברשת = 1; 
+
+                // הלולאה תריץ רק את מספר הסרטונים שהגדרת למעלה
+                for (let i = 1; i <= כמה_סרטונים_יש_ברשת; i++) {
                     document.write(`
                         <div class="video-card">
                             <video controls controlsList="nodownload" oncontextmenu="return false;" preload="metadata">
