@@ -45,7 +45,7 @@
         }
         video {
             width: 100%;
-            /* יחס של 5:4 - ממש טיפה מלבני, כמעט ריבוע */
+            /* יחס של 5:4 - ממש טיפה מלבני */
             aspect-ratio: 5 / 4; 
             object-fit: cover;
             display: block;
@@ -95,7 +95,7 @@
                     document.write(`
                         <div class="video-card">
                             <video controls controlsList="nodownload" oncontextmenu="return false;" preload="metadata">
-                                <source src="videos/${i}.mp4" type="video/mp4">
+                                <source src="${i}.mp4" type="video/mp4">
                             </video>
                             <div class="video-info">
                                 סרטון מאסטר - קטע ${i}
@@ -110,7 +110,6 @@
     <button class="scroll-down-btn" onclick="scrollToBottom()">⬇ לסוף הדף</button>
 
     <script>
-        // פונקציה שמחליקה את המסך עד לתחתית הדף
         function scrollToBottom() {
             window.scrollTo({
                 top: document.body.scrollHeight,
