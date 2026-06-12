@@ -1,131 +1,123 @@
 <!DOCTYPE html>
-<html dir="rtl" lang="he">
+<html lang="he" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <title>מאיר ישראל | מומחה לחימה והגנה עצמית - האתר הרשמי</title>
-    <meta name="description" content="ברוכים הבאים לאתר של מאיר ישראל. כאן תמצאו סרטוני הדרכה, טכניקות לחימה מתקדמות וארכיון קרבות של ג'קי צ'אן.">
-    <meta name="keywords" content="מאיר ישראל, לחימה, הגנה עצמית, ג'קי צ'אן, אימון לחימה, אומנויות לחימה">
-    
-    <meta property="og:title" content="מאיר ישראל - מאסטר הלחימה">
-    <meta property="og:description" content="צפו בטכניקות הלחימה הטובות ביותר עכשיו באתר.">
-    <meta property="og:type" content="website">
+    <title>המאסטרים - סרטוני אומנויות לחימה וקונג-פו</title>
+    <meta name="description" content="גלריית וידאו של אומנויות לחימה. צפו ב-30 קטעי לחימה נבחרים של ג'קי צ'אן ומאסטרים אחרים.">
+    <meta name="keywords" content="אומנויות לחימה, קונג פו, סרטוני לחימה קצרים, טכניקות קרב, ג'קי צ'אן, מאיר ישראל">
+    <meta name="author" content="מאיר ישראל">
 
     <style>
-        :root { 
-            --primary: #1d3557; 
-            --red: #e63946; 
-            --light: #f8f9fa;
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #1a1a1a;
+            color: #eeeeee;
+            margin: 0;
+            padding: 0;
         }
-        
-        body { 
-            font-family: 'Assistant', sans-serif; 
-            background-color: var(--light); 
-            color: var(--primary); 
-            margin: 0; 
+        header {
+            background-color: #262626;
+            padding: 25px;
+            text-align: center;
+            border-bottom: 3px solid #e50914;
         }
-
-        header { 
-            padding: 60px 20px; 
-            text-align: center; 
-            background: var(--primary);
-            color: white;
-            border-bottom: 5px solid var(--red);
+        h1 {
+            margin: 0;
+            font-size: 2.2em;
         }
-
-        h1 { font-size: 3.5rem; margin: 0; }
-        .intro { max-width: 800px; margin: 30px auto; font-size: 1.2rem; line-height: 1.8; }
-
-        .grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
-            gap: 30px; 
-            padding: 40px; 
-            max-width: 1300px; 
-            margin: auto; 
+        .container {
+            padding: 30px 15px;
+            max-width: 650px; 
+            margin: 0 auto;
         }
-
-        .card { 
-            background: white; 
-            border-radius: 20px; 
-            overflow: hidden; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            border: 1px solid #eee;
-            transition: 0.3s ease;
+        .video-grid {
+            display: grid;
+            grid-template-columns: 1fr; 
+            gap: 40px;
         }
-
-        .card:hover { transform: translateY(-10px); border-color: var(--red); }
-
-        .v-box { background: #000; width: 100%; aspect-ratio: 16/9; }
-        video { width: 100%; height: 100%; object-fit: cover; }
-
-        .card-content { padding: 20px; text-align: center; }
-        h3 { font-size: 1.3rem; margin: 0 0 15px 0; color: var(--primary); }
-
-        .full-btn { 
-            background: var(--red); 
-            color: white; 
-            border: none; 
-            padding: 12px 25px; 
-            border-radius: 12px; 
-            font-weight: bold; 
-            cursor: pointer; 
+        .video-card {
+            background-color: #333333;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+        }
+        video {
             width: 100%;
-            font-size: 1rem;
+            /* יחס של 5:4 - ממש טיפה מלבני, כמעט ריבוע */
+            aspect-ratio: 5 / 4; 
+            object-fit: cover;
+            display: block;
+            background-color: #000;
+        }
+        .video-info {
+            padding: 18px;
+            text-align: center;
+            font-size: 1.2em;
+            font-weight: bold;
+            border-top: 1px solid #444;
+        }
+
+        /* עיצוב כפתור הגלילה למטה */
+        .scroll-down-btn {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            background-color: #e50914;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 12px 20px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            transition: background-color 0.3s;
+            z-index: 1000;
+        }
+        .scroll-down-btn:hover {
+            background-color: #bf0811;
         }
     </style>
 </head>
 <body>
 
-<header>
-    <h1>מאיר ישראל</h1>
-    <p style="font-size: 1.4rem; opacity: 0.8;">הגנה עצמית | טכניקות לחימה | השראה</p>
-</header>
+    <header>
+        <h1>המאסטרים - קטעי לחימה</h1>
+    </header>
 
-<main>
-    <section class="intro">
-        <h2>אמנות הלחימה של מאיר ישראל</h2>
-        <p>
-            ברוכים הבאים למרכז הידע של מאיר ישראל. באתר זה תוכלו ללמוד טכניקות לחימה, 
-            לצפות בהדגמות של הגנה עצמית ולעקוב אחרי ארכיון הקרבות המקצועי שלנו. 
-            כל הסרטונים זמינים לצפייה ישירה ובמסך מלא.
-        </p>
-    </section>
+    <div class="container">
+        <div class="video-grid">
+            <script>
+                // יצירת 30 כרטיסיות הסרטונים 
+                for (let i = 1; i <= 30; i++) {
+                    document.write(`
+                        <div class="video-card">
+                            <video controls controlsList="nodownload" oncontextmenu="return false;" preload="metadata">
+                                <source src="videos/${i}.mp4" type="video/mp4">
+                            </video>
+                            <div class="video-info">
+                                סרטון מאסטר - קטע ${i}
+                            </div>
+                        </div>
+                    `);
+                }
+            </script>
+        </div>
+    </div>
 
-    <div class="grid" id="mainGrid"></div>
-</main>
+    <button class="scroll-down-btn" onclick="scrollToBottom()">⬇ לסוף הדף</button>
 
-<footer style="text-align: center; padding: 50px; background: #eee; margin-top: 50px;">
-    <p><strong>מאיר ישראל - מומחה לחימה</strong></p>
-    <p>כל הזכויות שמורות © 2026</p>
-</footer>
-
-<script>
-    const grid = document.getElementById('mainGrid');
-    for (let i = 1; i <= 20; i++) {
-        const card = document.createElement('article');
-        card.className = 'card';
-        card.innerHTML = `
-            <div class="v-box">
-                <video id="v${i}" preload="none" poster="thumb${i}.jpg">
-                    <source src="video${i}.mp4" type="video/mp4">
-                </video>
-            </div>
-            <div class="card-content">
-                <h3>שיעור לחימה עם מאיר ישראל מס' ${i}</h3>
-                <button class="full-btn" onclick="f(${i})">לצפייה במסך מלא</button>
-            </div>
-        `;
-        grid.appendChild(card);
-    }
-
-    function f(id) {
-        const v = document.getElementById('v' + id);
-        if (v.requestFullscreen) v.requestFullscreen();
-        v.play();
-    }
-</script>
+    <script>
+        // פונקציה שמחליקה את המסך עד לתחתית הדף
+        function scrollToBottom() {
+            window.scrollTo({
+                top: document.body.scrollHeight,
+                behavior: 'smooth'
+            });
+        }
+    </script>
 
 </body>
 </html>
